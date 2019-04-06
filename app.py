@@ -79,27 +79,32 @@ def index():
     # return jsonify(sample_metadata)
 
 
-@app.route("/samples/<sample>")
-def samples(sample):
-    """Return `otu_ids`, `otu_labels`,and `sample_values`."""
-    stmt = db.session.query(FoodRecall).state
+@app.route("/samples/<year>")
+def samples(year):
+    """Return values from SQL lite values."""
+    stmt = db.session.query(FoodRecall).statement
     df = pd.read_sql_query(stmt, db.session.bind)
 
     # Filter the data based on the sample number and
     # only keep rows with values above 1
-    sample_data = df.loc[df[sample] > 1, ["recalling_firm","country","state","report_date","termination_date","status","voluntary_mandated","classification","year_reported"]]
+    yr = int(year)
+    #print(yr)
+    sample_data = df.loc[df["year_reported"] == yr, ["recalling_firm","country","state","report_date","termination_date","status","voluntary_mandated","classification","year_reported"]]
     # Format the data to send as json
+    #print(sample_data)
     data = {
         "recalling_firm": sample_data.recalling_firm.tolist(),
         "sample_values": sample_data.country.tolist(),
         "state": sample_data.state.tolist(),
-        "report_date": sample_data.report_date.tolist(),
-        "termination_date": sample_data.termination_date.tolist(),
+        #"report_date": sample_data.report_date.tolist(),
+        #"termination_date": sample_data.termination_date.tolist(),
         "status": sample_data.status.tolist(),
         "voluntary_mandated": sample_data.voluntary_mandated.tolist(),
         "classification": sample_data.classification.tolist(),
         "year_reported": sample_data.year_reported.tolist()
     }
+    #print(yr)
+    #print(jsonify(data))
     return jsonify(data)
 
 
