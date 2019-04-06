@@ -92,7 +92,13 @@ def samples(sample):
     data = {
         "recalling_firm": sample_data.recalling_firm.tolist(),
         "sample_values": sample_data.country.tolist(),
-        "otu_labels": sample_data.otu_label.tolist(),
+        "state": sample_data.state.tolist(),
+        "report_date": sample_data.report_date.tolist(),
+        "termination_date": sample_data.termination_date.tolist(),
+        "status": sample_data.status.tolist(),
+        "voluntary_mandated": sample_data.voluntary_mandated.tolist(),
+        "classification": sample_data.classification.tolist(),
+        "year_reported": sample_data.year_reported.tolist()
     }
     return jsonify(data)
 
