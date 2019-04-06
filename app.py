@@ -87,11 +87,11 @@ def samples(sample):
 
     # Filter the data based on the sample number and
     # only keep rows with values above 1
-    sample_data = df.loc[df[sample] > 1, ["recalling_firm","product_type	country	state	report_date	termination_date	status	voluntary_mandated	classification	year_reported]]
+    sample_data = df.loc[df[sample] > 1, ["recalling_firm","country","state","report_date","termination_date","status","voluntary_mandated","classification","year_reported"]]
     # Format the data to send as json
     data = {
-        "otu_ids": sample_data.otu_id.values.tolist(),
-        "sample_values": sample_data[sample].values.tolist(),
+        "recalling_firm": sample_data.recalling_firm.tolist(),
+        "sample_values": sample_data.country.tolist(),
         "otu_labels": sample_data.otu_label.tolist(),
     }
     return jsonify(data)
