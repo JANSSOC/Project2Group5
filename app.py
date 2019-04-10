@@ -56,7 +56,11 @@ def firm(year):
     stmt = db.session.query(FoodRecall).statement
     df = pd.read_sql_query(stmt, db.session.bind)
     yr = int(year)
-    sample_data = df.loc[df["year_reported"] == yr, ["recalling_firm","state","status","year_reported"]]   
+    if yr > 2011:
+        sample_data = df.loc[df["year_reported"] == yr, ["recalling_firm","state","status","year_reported"]]
+    else:
+        sample_data = df[["recalling_firm","state","status","year_reported"]]
+
     sample_data = sample_data.groupby(['recalling_firm']).size().reset_index(name='counts')
     sample_data = sample_data.sort_values(['counts'], ascending=False)
     sample_data = sample_data.head(15)
@@ -97,7 +101,10 @@ def status(year):
     stmt = db.session.query(FoodRecall).statement
     df = pd.read_sql_query(stmt, db.session.bind)
     yr = int(year)
-    sample_data = df.loc[df["year_reported"] == yr, ["status","year_reported"]]   
+    if yr > 2011:
+        sample_data = df.loc[df["year_reported"] == yr, ["status","year_reported"]]  
+    else:
+        sample_data = df[["recalling_firm","state","status","year_reported"]] 
     sample_data = sample_data.groupby(['status']).size().reset_index(name='counts')
     sample_data = sample_data.sort_values(['counts'], ascending=False)
     sample_data = sample_data.head(15)
@@ -112,7 +119,10 @@ def states(year):
     stmt = db.session.query(FoodRecall).statement
     df = pd.read_sql_query(stmt, db.session.bind)
     yr = int(year)
-    sample_data = df.loc[df["year_reported"] == yr, ["recalling_firm","state","status","year_reported"]]
+    if yr > 2011:
+        sample_data = df.loc[df["year_reported"] == yr, ["recalling_firm","state","status","year_reported"]]
+    else:
+        sample_data = df[["recalling_firm","state","status","year_reported"]] 
     sample_data = sample_data.groupby(['state']).size().reset_index(name='counts')
     sample_data = sample_data.sort_values(['counts'], ascending=False)
     sample_data = sample_data.head(15)
